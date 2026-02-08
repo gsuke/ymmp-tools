@@ -1,4 +1,4 @@
-package main
+package ymmp
 
 import (
 	"bytes"
@@ -20,7 +20,7 @@ func addBOM(data []byte) []byte {
 }
 
 // ファイルを読み込んでYmmp構造体に変換する
-func loadYmmp(filePath string) (Ymmp, error) {
+func LoadYmmp(filePath string) (Ymmp, error) {
 	data, err := os.ReadFile(filePath)
 	if err != nil {
 		return Ymmp{}, fmt.Errorf("failed to read file: %w", err)
@@ -37,7 +37,7 @@ func loadYmmp(filePath string) (Ymmp, error) {
 }
 
 // Ymmp構造体をファイルに出力する（BOM付き）
-func saveYmmp(ymmp Ymmp, outputPath string) error {
+func SaveYmmp(ymmp Ymmp, outputPath string) error {
 	data, err := ymmp.Marshal()
 	if err != nil {
 		return fmt.Errorf("failed to marshal YMMP: %w", err)

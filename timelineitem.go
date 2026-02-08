@@ -1,10 +1,10 @@
 package main
 
-// TimeLineItemsを条件で抽出する。
+// TimelineItemsを条件で抽出する。
 // layer=-1, itemType=ItemNone で指定なし。
 // ソートされていないので注意。
 // layerは0-basedなので念の為注意。
-func FilterTimeLineItems(
+func FilterTimelineItems(
 	items []TimelineItem,
 	layer int64, // 0-ordered
 	itemType TimelineItemType,

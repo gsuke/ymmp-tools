@@ -4,9 +4,9 @@
 quicktype <input>.ymmp -o ymmp.go --no-enums
 ```
 
-# セリフ(TimeLineItem.Serif)形式
+# セリフ(TimelineItem.Serif)形式
 
-TimeLineItem.Serif の改行は `\r\n`
+TimelineItem.Serif の改行は `\r\n`
 
 ## デコレーションの例
 
@@ -63,3 +63,5 @@ TimeLineItem.Serif の改行は `\r\n`
   }
 ]
 ```
+
+なお、デコレーションなしの場合は空配列 `[]` となる。

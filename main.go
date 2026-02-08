@@ -31,10 +31,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	// サンプルコード、そのまま残しておく
-	PrintSummary(
-		FilterTimeLineItems(ymmp.Timelines[1].Items, 1, "")[0],
-	)
+	// サンプルコード: TimelineItem.Type の一覧を出力
+	// typeSet := make(map[string]struct{})
+	items := FilterTimelineItems(ymmp.Timelines[1].Items, 7, ItemNone)
+	PrintSummary(items[0])
+	// for _, item := range items {
+	// 	fmt.Printf("%v, %v\n", item.Frame, *item.Serif)
+	// }
+
+	// fmt.Println(items)
+
+	// for _, item := range items {
+	// 	typeSet[item.Type] = struct{}{}
+	// }
+	// for t := range typeSet {
+	// 	fmt.Println(t)
+	// }
 
 	// 出力オプションが指定されている場合のみ出力
 	if *outputPath != "" {

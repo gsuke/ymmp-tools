@@ -48,7 +48,8 @@ func PrintSummary(v interface{}) {
 			fmt.Printf("%s = { %d items }\n", name, fv.Len())
 
 		default:
-			fmt.Printf("%s = (%s)\n", name, fv.Kind())
+			// 要検証: 本当に消して良いのか？ 値が入っているポインタも (ptr) となって見逃している可能性もある
+			// fmt.Printf("%s = (%s)\n", name, fv.Kind())
 		}
 	}
 }

@@ -1,15 +1,19 @@
 package main
 
+import "sort"
+
+type TimelineItems []TimelineItem
+
 // TimelineItemsを条件で抽出する。
-// layer=-1, itemType=ItemNone で指定なし。
-// ソートされていないので注意。
+// layer=-1, itemType=ItemNone, frame=-1 で指定なし。
+// ソートしたい場合は、SortTimelineItemsByFrame()を繋げること。
 // layerは0-basedなので念の為注意。
-func FilterTimelineItems(
-	items []TimelineItem,
-	layer int64, // 0-ordered
+func (items TimelineItems) FilterTimelineItems(
+	layer int64,
 	itemType TimelineItemType,
-) []TimelineItem {
-	result := make([]TimelineItem, 0)
+	frame int64,
+) TimelineItems {
+	result := make(TimelineItems, 0)
 	for _, item := range items {
 		if layer != -1 && item.Layer != layer {
 			continue
@@ -17,9 +21,22 @@ func FilterTimelineItems(
 		if string(itemType) != "" && item.Type != string(itemType) {
 			continue
 		}
+		if frame != -1 && item.Frame != frame {
+			continue
+		}
 		result = append(result, item)
 	}
 	return result
+}
+
+// Frameの昇順でソートする。
+func (items TimelineItems) SortTimelineItemsByFrame() TimelineItems {
+	sorted := make(TimelineItems, len(items))
+	copy(sorted, items)
+	sort.Slice(sorted, func(i, j int) bool {
+		return sorted[i].Frame < sorted[j].Frame
+	})
+	return sorted
 }
 
 type TimelineItemType string

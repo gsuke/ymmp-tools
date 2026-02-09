@@ -3,3 +3,7 @@
 
 # 検証用コード
 /main.go
+
+# bun
+node_modules/
+bun.lock

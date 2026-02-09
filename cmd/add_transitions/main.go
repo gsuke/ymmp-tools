@@ -31,7 +31,6 @@ func main() {
 		fmt.Println()
 		fmt.Println("Example:")
 		fmt.Println("  add_transitions -t 0 -s 7 -d 8 -o output.ymmp input.ymmp")
-		fmt.Println("  add_transitions -t 0 -s 7 -d 8 -l 20 -o output.ymmp input.ymmp")
 		os.Exit(1)
 	}
 

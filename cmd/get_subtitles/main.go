@@ -6,28 +6,43 @@ import (
 	"strings"
 	"ymmp-tools/ymmp"
 
+	"github.com/mattn/go-runewidth"
 	flag "github.com/spf13/pflag"
 )
+
+// runewidthの条件（全角=2, 半角=1）
+var runeCondition = func() *runewidth.Condition {
+	c := runewidth.NewCondition()
+	c.EastAsianWidth = true
+	return c
+}()
+
+func printHelp() {
+	help := `Usage: get_subtitles [options] <file.ymmp>
+
+指定されたLayerの字幕（Serif）をフレーム順に出力します。
+
+Options:
+%s
+Example:
+  get_subtitles -t 1 -l 7 input.ymmp
+  get_subtitles -t 1 -l 7 --mark-long input.ymmp
+`
+	fmt.Fprintf(os.Stderr, help, flag.CommandLine.FlagUsages())
+}
 
 func main() {
 	// フラグの定義
 	flag.SetInterspersed(true)
 	timeline := flag.IntP("timeline", "t", -1, "Timeline番号（必須）")
 	layer := flag.Int64P("layer", "l", -1, "Layer番号（必須）")
+	markLong := flag.Bool("mark-long", false, "幅32を超える行に [!] マークを付ける")
 	flag.Parse()
 
 	// 引数のチェック
 	args := flag.Args()
 	if len(args) < 1 || *timeline < 0 || *layer < 0 {
-		fmt.Fprintln(os.Stderr, "Usage: get_subtitles [options] <file.ymmp>")
-		fmt.Fprintln(os.Stderr)
-		fmt.Fprintln(os.Stderr, "指定されたLayerの字幕（Serif）をフレーム順に出力します。")
-		fmt.Fprintln(os.Stderr)
-		fmt.Fprintln(os.Stderr, "Options:")
-		flag.PrintDefaults()
-		fmt.Fprintln(os.Stderr)
-		fmt.Fprintln(os.Stderr, "Example:")
-		fmt.Fprintln(os.Stderr, "  get_subtitles -t 1 -l 7 input.ymmp")
+		printHelp()
 		os.Exit(1)
 	}
 
@@ -54,10 +69,20 @@ func main() {
 	// 字幕を出力
 	for _, item := range items {
 		if item.Serif != nil {
-			// \r\n をリテラル文字列として出力
-			escaped := strings.ReplaceAll(*item.Serif, "\r", `\r`)
-			escaped = strings.ReplaceAll(escaped, "\n", `\n`)
-			fmt.Println(escaped)
+			// \r\n を除去
+			escaped := strings.ReplaceAll(*item.Serif, "\r", "")
+			escaped = strings.ReplaceAll(escaped, "\n", "")
+
+			// 文字幅が32を超えているならば、マークを付ける（オプション有効時のみ）
+			prefix := ""
+			if *markLong {
+				width := runeCondition.StringWidth(escaped)
+				if width > 32 {
+					prefix = "[!]"
+				}
+			}
+
+			fmt.Printf("%s%s\n", prefix, escaped)
 		}
 	}
 }

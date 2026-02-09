@@ -1,1 +1,5 @@
 *.ymmp
+*.txt
+
+# 検証用コード
+/main.go

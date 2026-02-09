@@ -68,21 +68,23 @@ func main() {
 
 	// 字幕を出力
 	for _, item := range items {
-		if item.Serif != nil {
-			// \r\n を除去
-			escaped := strings.ReplaceAll(*item.Serif, "\r", "")
-			escaped = strings.ReplaceAll(escaped, "\n", "")
-
-			// 文字幅が32を超えているならば、マークを付ける（オプション有効時のみ）
-			prefix := ""
-			if *markLong {
-				width := runeCondition.StringWidth(escaped)
-				if width > 32 {
-					prefix = "[!]"
-				}
-			}
-
-			fmt.Printf("%s%s\n", prefix, escaped)
+		if item.Serif == nil {
+			continue
 		}
+
+		// \r\n をエスケープ
+		escaped := strings.ReplaceAll(*item.Serif, "\r", `\r`)
+		escaped = strings.ReplaceAll(escaped, "\n", `\n`)
+
+		// 文字幅が32を超えているならば、マークを付ける（オプション有効時のみ）
+		prefix := ""
+		if *markLong {
+			width := runeCondition.StringWidth(escaped)
+			if width > 32 {
+				prefix = "[!]"
+			}
+		}
+
+		fmt.Printf("%s%s\n", prefix, escaped)
 	}
 }

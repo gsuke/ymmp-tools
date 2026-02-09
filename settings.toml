@@ -1,0 +1,12 @@
+# 装飾タグの色設定
+# 形式: #AARRGGBB (アルファ, 赤, 緑, 青)
+
+[decoration.colors]
+# 強調 (emphasis)
+em = "#FF94F9FF"
+
+# ポジティブ (positive)
+pos = "#FFFFAAAA"
+
+# ネガティブ (negative)
+neg = "#FFCDA8EC"

@@ -45,7 +45,7 @@ func newDefaultBezier() Bezier {
 //	FontSize: アニメーションなしの状態で初期化された構造体
 func newFontSize(value float64) FontSize {
 	return FontSize{
-		Values: []Value{
+		Values: []ValueElement{
 			{Value: value},
 		},
 		Span:          0.0,

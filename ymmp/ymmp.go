@@ -82,6 +82,8 @@ type Character struct {
 	StyleColor                       string                       `json:"StyleColor"`
 	Bold                             bool                         `json:"Bold"`
 	Italic                           bool                         `json:"Italic"`
+	Underline                        bool                         `json:"Underline"`
+	Strikethrough                    bool                         `json:"Strikethrough"`
 	IsTrimEndSpace                   bool                         `json:"IsTrimEndSpace"`
 	IsDevidedPerCharacter            bool                         `json:"IsDevidedPerCharacter"`
 	DisplayInterval                  float64                      `json:"DisplayInterval"`
@@ -132,10 +134,10 @@ type CharacterAudioEffect struct {
 }
 
 type FontSize struct {
-	Values        []Value `json:"Values"`
-	Span          float64 `json:"Span"`
-	AnimationType string  `json:"AnimationType"`
-	Bezier        Bezier  `json:"Bezier"`
+	Values        []ValueElement `json:"Values"`
+	Span          float64        `json:"Span"`
+	AnimationType string         `json:"AnimationType"`
+	Bezier        Bezier         `json:"Bezier"`
 }
 
 type Bezier struct {
@@ -154,35 +156,41 @@ type ControlPoint1 struct {
 	Y float64 `json:"Y"`
 }
 
-type Value struct {
+type ValueElement struct {
 	Value float64 `json:"Value"`
 }
 
 type CharacterJimakuVideoEffect struct {
-	Type             string    `json:"$type"`
-	StrokeThickness  *FontSize `json:"StrokeThickness,omitempty"`
-	Blur             FontSize  `json:"Blur"`
-	X                FontSize  `json:"X"`
-	Y                FontSize  `json:"Y"`
-	Opacity          FontSize  `json:"Opacity"`
-	Zoom             FontSize  `json:"Zoom"`
-	Rotation         *FontSize `json:"Rotation,omitempty"`
-	StrokeBrush      *Brush    `json:"StrokeBrush,omitempty"`
-	IsOutlineOnly    *bool     `json:"IsOutlineOnly,omitempty"`
-	IsAngular        *bool     `json:"IsAngular,omitempty"`
-	IsEnabled        bool      `json:"IsEnabled"`
-	Remark           string    `json:"Remark"`
-	Angle            *FontSize `json:"Angle,omitempty"`
-	IsRotateAtCenter *bool     `json:"IsRotateAtCenter,omitempty"`
-	Brush            *Brush    `json:"Brush,omitempty"`
+	Type                string    `json:"$type"`
+	StrokeThicknessRate *FontSize `json:"StrokeThicknessRate,omitempty"`
+	BlurRate            *FontSize `json:"BlurRate,omitempty"`
+	IsOutlineOnly       *bool     `json:"IsOutlineOnly,omitempty"`
+	IsAngular           *bool     `json:"IsAngular,omitempty"`
+	X                   *FontSize `json:"X,omitempty"`
+	Y                   *FontSize `json:"Y,omitempty"`
+	Opacity             FontSize  `json:"Opacity"`
+	Zoom                *FontSize `json:"Zoom,omitempty"`
+	Rotation            *FontSize `json:"Rotation,omitempty"`
+	StrokeBruch         *Brush    `json:"StrokeBruch,omitempty"`
+	IsEnabled           bool      `json:"IsEnabled"`
+	Remark              string    `json:"Remark"`
+	Angle               *FontSize `json:"Angle,omitempty"`
+	Length              *FontSize `json:"Length,omitempty"`
+	Attenuation         *FontSize `json:"Attenuation,omitempty"`
+	ShadowType          *string   `json:"ShadowType,omitempty"`
+	Color1              *string   `json:"Color1,omitempty"`
+	Color2              *string   `json:"Color2,omitempty"`
+	Blur                *FontSize `json:"Blur,omitempty"`
+	IsRotateAtCenter    *bool     `json:"IsRotateAtCenter,omitempty"`
+	Brush               *Brush    `json:"Brush,omitempty"`
 }
 
 type Brush struct {
 	Type      string               `json:"Type"`
-	Parameter StrokeBrushParameter `json:"Parameter"`
+	Parameter StrokeBruchParameter `json:"Parameter"`
 }
 
-type StrokeBrushParameter struct {
+type StrokeBruchParameter struct {
 	Type  string `json:"$type"`
 	Color string `json:"Color"`
 }
@@ -194,24 +202,39 @@ type KeyGesture struct {
 
 type TachieCharacterParameter struct {
 	Type             string  `json:"$type"`
-	FilePath         string  `json:"FilePath"`
-	MouthSensitivity float64 `json:"MouthSensitivity"`
+	File             string  `json:"File"`
+	PaletteButton    bool    `json:"PaletteButton"`
+	Mepachi          string  `json:"Mepachi"`
+	Kuchipaku        string  `json:"Kuchipaku"`
+	Pickup           string  `json:"Pickup"`
+	Preset           string  `json:"Preset"`
+	OutsideKuchipaku bool    `json:"OutsideKuchipaku"`
+	Sensitivity      float64 `json:"Sensitivity"`
 }
 
 type TachieFaceParameter struct {
-	Type           string   `json:"$type"`
-	IsEnabled      bool     `json:"IsEnabled"`
-	FilePath       *string  `json:"FilePath"`
-	EnableLayers   []string `json:"EnableLayers"`
-	EyeAnimation   string   `json:"EyeAnimation"`
-	MouthAnimation string   `json:"MouthAnimation"`
+	Type          string `json:"$type"`
+	Button        bool   `json:"Button"`
+	Preset        string `json:"Preset"`
+	Text          string `json:"Text"`
+	FlipH         bool   `json:"FlipH"`
+	FlipV         bool   `json:"FlipV"`
+	StopMepachi   bool   `json:"StopMepachi"`
+	StopKuchipaku bool   `json:"StopKuchipaku"`
+	Extend        bool   `json:"Extend"`
+	Override      bool   `json:"Override"`
 }
 
 type TachieItemParameter struct {
-	Type                 string   `json:"$type"`
-	FilePath             string   `json:"FilePath"`
-	EnableLayers         []string `json:"EnableLayers"`
-	IsHiddenWhenNoSpeech bool     `json:"IsHiddenWhenNoSpeech"`
+	Type                  string  `json:"$type"`
+	Button                bool    `json:"Button"`
+	Text                  string  `json:"Text"`
+	FlipH                 bool    `json:"FlipH"`
+	FlipV                 bool    `json:"FlipV"`
+	StopMepachi           bool    `json:"StopMepachi"`
+	StopKuchipaku         bool    `json:"StopKuchipaku"`
+	ShowOnlyWhileSpeaking bool    `json:"ShowOnlyWhileSpeaking"`
+	MepachiInterval       float64 `json:"MepachiInterval"`
 }
 
 type KeyFrames struct {
@@ -223,6 +246,8 @@ type TachieItemVideoEffect struct {
 	Type               string    `json:"$type"`
 	StrokeThickness    *FontSize `json:"StrokeThickness,omitempty"`
 	Blur               *FontSize `json:"Blur,omitempty"`
+	Quality            *FontSize `json:"Quality,omitempty"`
+	Smoothness         *FontSize `json:"Smoothness,omitempty"`
 	X                  *FontSize `json:"X,omitempty"`
 	Y                  *FontSize `json:"Y,omitempty"`
 	Opacity            *FontSize `json:"Opacity,omitempty"`
@@ -319,6 +344,8 @@ type TimelineItem struct {
 	StyleColor                *string                 `json:"StyleColor,omitempty"`
 	Bold                      *bool                   `json:"Bold,omitempty"`
 	Italic                    *bool                   `json:"Italic,omitempty"`
+	Underline                 *bool                   `json:"Underline,omitempty"`
+	Strikethrough             *bool                   `json:"Strikethrough,omitempty"`
 	IsTrimEndSpace            *bool                   `json:"IsTrimEndSpace,omitempty"`
 	IsDevidedPerCharacter     *bool                   `json:"IsDevidedPerCharacter,omitempty"`
 	DisplayInterval           *float64                `json:"DisplayInterval,omitempty"`
@@ -336,10 +363,10 @@ type TimelineItem struct {
 	IsWaveformEnabled         *bool                   `json:"IsWaveformEnabled,omitempty"`
 	Serif                     *string                 `json:"Serif,omitempty"`
 	Hatsuon                   *string                 `json:"Hatsuon,omitempty"`
-	Pronounce                 *Pronounce              `json:"Pronounce,omitempty"`
-	LipSyncFrames             []LipSyncFrame          `json:"LipSyncFrames,omitempty"`
+	Pronounce                 *Pronounce              `json:"Pronounce"`
+	LipSyncFrames             []LipSyncFrame          `json:"LipSyncFrames"`
 	VoiceLength               *string                 `json:"VoiceLength,omitempty"`
-	VoiceCache                *string                 `json:"VoiceCache,omitempty"`
+	VoiceCache                *string                 `json:"VoiceCache"`
 	Volume                    *FontSize               `json:"Volume,omitempty"`
 	Pan                       *FontSize               `json:"Pan,omitempty"`
 	VoiceParameter            *VoiceParameter         `json:"VoiceParameter,omitempty"`
@@ -390,6 +417,21 @@ type ItemAudioEffect struct {
 	EffectTimeSeconds *float64    `json:"EffectTimeSeconds,omitempty"`
 	EasingType        *string     `json:"EasingType,omitempty"`
 	EasingMode        *string     `json:"EasingMode,omitempty"`
+	InputGain         *FontSize   `json:"InputGain,omitempty"`
+	OutputGain        *FontSize   `json:"OutputGain,omitempty"`
+	Mode              *string     `json:"Mode,omitempty"`
+	B32               *FontSize   `json:"B32,omitempty"`
+	B64               *FontSize   `json:"B64,omitempty"`
+	B125              *FontSize   `json:"B125,omitempty"`
+	B250              *FontSize   `json:"B250,omitempty"`
+	B500              *FontSize   `json:"B500,omitempty"`
+	B1K               *FontSize   `json:"B1k,omitempty"`
+	B2K               *FontSize   `json:"B2k,omitempty"`
+	B4K               *FontSize   `json:"B4k,omitempty"`
+	B8K               *FontSize   `json:"B8k,omitempty"`
+	B16K              *FontSize   `json:"B16k,omitempty"`
+	Delay             *FontSize   `json:"Delay,omitempty"`
+	Feedback          *FontSize   `json:"Feedback,omitempty"`
 }
 
 type PitchValue struct {
@@ -399,46 +441,87 @@ type PitchValue struct {
 }
 
 type Decoration struct {
-	Start         int64       `json:"Start"`
-	Length        int64       `json:"Length"`
-	IsBold        bool        `json:"IsBold"`
-	IsItalic      bool        `json:"IsItalic"`
-	Scale         float64     `json:"Scale"`
-	Font          interface{} `json:"Font"`
-	Foreground    *string     `json:"Foreground"`
-	IsLineBreak   bool        `json:"IsLineBreak"`
-	HasDecoration bool        `json:"HasDecoration"`
+	Start              int64       `json:"Start"`
+	Length             int64       `json:"Length"`
+	IsBold             bool        `json:"IsBold"`
+	IsItalic           bool        `json:"IsItalic"`
+	Scale              float64     `json:"Scale"`
+	Font               interface{} `json:"Font"`
+	Foreground         *string     `json:"Foreground"`
+	IsLineBreak        bool        `json:"IsLineBreak"`
+	OffsetX            float64     `json:"OffsetX"`
+	OffsetY            float64     `json:"OffsetY"`
+	IsAbsoluteX        bool        `json:"IsAbsoluteX"`
+	IsAbsoluteY        bool        `json:"IsAbsoluteY"`
+	DecorationColor    interface{} `json:"DecorationColor"`
+	RotationZ          float64     `json:"RotationZ"`
+	IsStrikethrough    bool        `json:"IsStrikethrough"`
+	IsUnderline        bool        `json:"IsUnderline"`
+	IsAbsolutePosition bool        `json:"IsAbsolutePosition"`
+	HasDecoration      bool        `json:"HasDecoration"`
 }
 
 type ItemJimakuVideoEffect struct {
-	Type             string    `json:"$type"`
-	StrokeThickness  *FontSize `json:"StrokeThickness,omitempty"`
-	Blur             *FontSize `json:"Blur,omitempty"`
-	X                *FontSize `json:"X,omitempty"`
-	Y                *FontSize `json:"Y,omitempty"`
-	Opacity          FontSize  `json:"Opacity"`
-	Zoom             *FontSize `json:"Zoom,omitempty"`
-	Rotation         *FontSize `json:"Rotation,omitempty"`
-	StrokeBrush      *Brush    `json:"StrokeBrush,omitempty"`
-	IsOutlineOnly    *bool     `json:"IsOutlineOnly,omitempty"`
-	IsAngular        *bool     `json:"IsAngular,omitempty"`
-	IsEnabled        bool      `json:"IsEnabled"`
-	Remark           string    `json:"Remark"`
-	Round            *FontSize `json:"Round,omitempty"`
-	BlendMode        *string   `json:"BlendMode,omitempty"`
-	IsBackgroundOnly *bool     `json:"IsBackgroundOnly,omitempty"`
-	Brush            *Brush    `json:"Brush,omitempty"`
-	Top              *FontSize `json:"Top,omitempty"`
-	Bottom           *FontSize `json:"Bottom,omitempty"`
-	Left             *FontSize `json:"Left,omitempty"`
-	Right            *FontSize `json:"Right,omitempty"`
-	Angle            *FontSize `json:"Angle,omitempty"`
-	IsRotateAtCenter *bool     `json:"IsRotateAtCenter,omitempty"`
-	GradientType     *string   `json:"GradientType,omitempty"`
-	Stops            []Stop    `json:"Stops,omitempty"`
-	Size             *FontSize `json:"Size,omitempty"`
-	ExtendMode       *string   `json:"ExtendMode,omitempty"`
-	Blend            *string   `json:"Blend,omitempty"`
+	Type                string            `json:"$type"`
+	StrokeThickness     *FontSize         `json:"StrokeThickness,omitempty"`
+	Blur                *FontSize         `json:"Blur,omitempty"`
+	Quality             *FontSize         `json:"Quality,omitempty"`
+	Smoothness          *FontSize         `json:"Smoothness,omitempty"`
+	X                   *FontSize         `json:"X,omitempty"`
+	Y                   *FontSize         `json:"Y,omitempty"`
+	Opacity             *FontSize         `json:"Opacity,omitempty"`
+	Zoom                *FontSize         `json:"Zoom,omitempty"`
+	Rotation            *FontSize         `json:"Rotation,omitempty"`
+	StrokeBrush         *Brush            `json:"StrokeBrush,omitempty"`
+	IsOutlineOnly       *bool             `json:"IsOutlineOnly,omitempty"`
+	IsAngular           *bool             `json:"IsAngular,omitempty"`
+	IsEnabled           bool              `json:"IsEnabled"`
+	Remark              string            `json:"Remark"`
+	Round               *FontSize         `json:"Round,omitempty"`
+	BlendMode           *string           `json:"BlendMode,omitempty"`
+	IsBackgroundOnly    *bool             `json:"IsBackgroundOnly,omitempty"`
+	Brush               *Brush            `json:"Brush,omitempty"`
+	Top                 *FontSize         `json:"Top,omitempty"`
+	Bottom              *FontSize         `json:"Bottom,omitempty"`
+	Left                *FontSize         `json:"Left,omitempty"`
+	Right               *FontSize         `json:"Right,omitempty"`
+	Angle               *FontSize         `json:"Angle,omitempty"`
+	IsRotateAtCenter    *bool             `json:"IsRotateAtCenter,omitempty"`
+	GradientType        *string           `json:"GradientType,omitempty"`
+	Stops               []Stop            `json:"Stops,omitempty"`
+	Size                *FontSize         `json:"Size,omitempty"`
+	ExtendMode          *string           `json:"ExtendMode,omitempty"`
+	Blend               *string           `json:"Blend,omitempty"`
+	Mode                *string           `json:"Mode,omitempty"`
+	Target              *string           `json:"Target,omitempty"`
+	MarginTop           *FontSize         `json:"MarginTop,omitempty"`
+	MarginLeft          *FontSize         `json:"MarginLeft,omitempty"`
+	IgnorRotation       *bool             `json:"IgnorRotation,omitempty"`
+	ApplyLimit          *bool             `json:"ApplyLimit,omitempty"`
+	LowerLimitParameter *ErLimitParameter `json:"LowerLimitParameter,omitempty"`
+	UpperLimitParameter *ErLimitParameter `json:"UpperLimitParameter,omitempty"`
+	StrokeThicknessRate *FontSize         `json:"StrokeThicknessRate,omitempty"`
+	BlurRate            *FontSize         `json:"BlurRate,omitempty"`
+	StrokeBruch         *Brush            `json:"StrokeBruch,omitempty"`
+	Length              *FontSize         `json:"Length,omitempty"`
+	Attenuation         *FontSize         `json:"Attenuation,omitempty"`
+	ShadowType          *string           `json:"ShadowType,omitempty"`
+	Color1              *string           `json:"Color1,omitempty"`
+	Color2              *string           `json:"Color2,omitempty"`
+	Span                *FontSize         `json:"Span,omitempty"`
+	EasingType          *string           `json:"EasingType,omitempty"`
+	EasingMode          *string           `json:"EasingMode,omitempty"`
+	ZoomX               *FontSize         `json:"ZoomX,omitempty"`
+	ZoomY               *FontSize         `json:"ZoomY,omitempty"`
+	IsNearestNeighbor   *bool             `json:"IsNearestNeighbor,omitempty"`
+	Value               *float64          `json:"Value,omitempty"`
+	IsInEffect          *bool             `json:"IsInEffect,omitempty"`
+	IsOutEffect         *bool             `json:"IsOutEffect,omitempty"`
+	EffectTimeSeconds   *float64          `json:"EffectTimeSeconds,omitempty"`
+}
+
+type ErLimitParameter struct {
+	Type string `json:"$type"`
 }
 
 type Stop struct {
@@ -452,9 +535,9 @@ type LipSyncFrame struct {
 }
 
 type Pronounce struct {
-	Type          string      `json:"$type"`
-	AudioQuery    AudioQuery  `json:"AudioQuery"`
-	LipSyncFrames interface{} `json:"LipSyncFrames"`
+	Type          string         `json:"$type"`
+	AudioQuery    AudioQuery     `json:"AudioQuery"`
+	LipSyncFrames []LipSyncFrame `json:"LipSyncFrames"`
 }
 
 type AudioQuery struct {
@@ -583,91 +666,123 @@ type TransitionParameter struct {
 }
 
 type VideoEffect struct {
-	Type                 string    `json:"$type"`
-	SizeMode             *string   `json:"SizeMode,omitempty"`
-	Size                 *Size     `json:"Size,omitempty"`
-	Dot                  *bool     `json:"Dot,omitempty"`
-	IsEnabled            bool      `json:"IsEnabled"`
-	Remark               string    `json:"Remark"`
-	StrokeThickness      *FontSize `json:"StrokeThickness,omitempty"`
-	Blur                 *FontSize `json:"Blur,omitempty"`
-	X                    *FontSize `json:"X,omitempty"`
-	Y                    *FontSize `json:"Y,omitempty"`
-	Opacity              *FontSize `json:"Opacity,omitempty"`
-	Zoom                 *FontSize `json:"Zoom,omitempty"`
-	Rotation             *FontSize `json:"Rotation,omitempty"`
-	StrokeBrush          *Brush    `json:"StrokeBrush,omitempty"`
-	IsOutlineOnly        *bool     `json:"IsOutlineOnly,omitempty"`
-	IsAngular            *bool     `json:"IsAngular,omitempty"`
-	ZoomX                *FontSize `json:"ZoomX,omitempty"`
-	ZoomY                *FontSize `json:"ZoomY,omitempty"`
-	IsNearestNeighbor    *bool     `json:"IsNearestNeighbor,omitempty"`
-	GradientType         *string   `json:"GradientType,omitempty"`
-	Stops                []Stop    `json:"Stops,omitempty"`
-	ExtendMode           *string   `json:"ExtendMode,omitempty"`
-	Blend                *string   `json:"Blend,omitempty"`
-	Angle                *FontSize `json:"Angle,omitempty"`
-	Width                *FontSize `json:"Width,omitempty"`
-	Horizontal           *string   `json:"Horizontal,omitempty"`
-	Vertical             *string   `json:"Vertical,omitempty"`
-	IsKeepPosition       *bool     `json:"IsKeepPosition,omitempty"`
-	IsHardBorderMode     *bool     `json:"IsHardBorderMode,omitempty"`
-	Length               *FontSize `json:"Length,omitempty"`
-	IsRotateAtCenter     *bool     `json:"IsRotateAtCenter,omitempty"`
-	Brush                *Brush    `json:"Brush,omitempty"`
-	MotionType           *string   `json:"MotionType,omitempty"`
-	StartNaturally       *bool     `json:"StartNaturally,omitempty"`
-	EndNaturally         *bool     `json:"EndNaturally,omitempty"`
-	Loop                 *bool     `json:"Loop,omitempty"`
-	Interval             *Interval `json:"Interval"`
-	Invert               *bool     `json:"Invert,omitempty"`
-	Speed                *float64  `json:"Speed,omitempty"`
-	PositionCorrection   *float64  `json:"PositionCorrection,omitempty"`
-	ZoomCorrection       *float64  `json:"ZoomCorrection,omitempty"`
-	RotationCorrection   *float64  `json:"RotationCorrection,omitempty"`
-	Z                    *FontSize `json:"Z,omitempty"`
-	Span                 *FontSize `json:"Span,omitempty"`
-	DistanceMode         *string   `json:"DistanceMode,omitempty"`
-	KeyColor             *string   `json:"KeyColor,omitempty"`
-	Threshold2           *FontSize `json:"Threshold2,omitempty"`
-	Smoothness           *FontSize `json:"Smoothness,omitempty"`
-	Despill              *FontSize `json:"Despill,omitempty"`
-	IsInvert             *bool     `json:"IsInvert,omitempty"`
-	EasingType           *string   `json:"EasingType,omitempty"`
-	EasingMode           *string   `json:"EasingMode,omitempty"`
-	AngleX               *float64  `json:"AngleX,omitempty"`
-	AngleY               *float64  `json:"AngleY,omitempty"`
-	CenterPoint          *string   `json:"CenterPoint,omitempty"`
-	CenterX              *float64  `json:"CenterX,omitempty"`
-	CenterY              *float64  `json:"CenterY,omitempty"`
-	IsInEffect           *bool     `json:"IsInEffect,omitempty"`
-	IsOutEffect          *bool     `json:"IsOutEffect,omitempty"`
-	EffectTimeSeconds    *float64  `json:"EffectTimeSeconds,omitempty"`
-	Yaw                  *FontSize `json:"Yaw,omitempty"`
-	Pitch                *FontSize `json:"Pitch,omitempty"`
-	Roll                 *FontSize `json:"Roll,omitempty"`
-	IsCentering          *bool     `json:"IsCentering,omitempty"`
-	JumpHeight           *FontSize `json:"JumpHeight,omitempty"`
-	Stretch              *FontSize `json:"Stretch,omitempty"`
-	Period               *FontSize `json:"Period,omitempty"`
-	Distortion           *FontSize `json:"Distortion,omitempty"`
-	File                 *string   `json:"File,omitempty"`
-	Tolerance            *FontSize `json:"Tolerance,omitempty"`
-	KeepAspect           *bool     `json:"KeepAspect,omitempty"`
-	IsFixedCoveringScale *bool     `json:"IsFixedCoveringScale,omitempty"`
-	IsReversedInEffect   *bool     `json:"IsReversedInEffect,omitempty"`
-	IsReversedOutEffect  *bool     `json:"IsReversedOutEffect,omitempty"`
+	Type                 string           `json:"$type"`
+	SizeMode             *string          `json:"SizeMode,omitempty"`
+	Size                 *Size            `json:"Size,omitempty"`
+	Dot                  *bool            `json:"Dot,omitempty"`
+	IsEnabled            bool             `json:"IsEnabled"`
+	Remark               string           `json:"Remark"`
+	StrokeThickness      *FontSize        `json:"StrokeThickness,omitempty"`
+	Blur                 *FontSize        `json:"Blur,omitempty"`
+	Quality              *FontSize        `json:"Quality,omitempty"`
+	Smoothness           *FontSize        `json:"Smoothness,omitempty"`
+	X                    *Interval        `json:"X"`
+	Y                    *Interval        `json:"Y"`
+	Opacity              *FontSize        `json:"Opacity,omitempty"`
+	Zoom                 *FontSize        `json:"Zoom,omitempty"`
+	Rotation             *FontSize        `json:"Rotation,omitempty"`
+	StrokeBrush          *Brush           `json:"StrokeBrush,omitempty"`
+	IsOutlineOnly        *bool            `json:"IsOutlineOnly,omitempty"`
+	IsAngular            *bool            `json:"IsAngular,omitempty"`
+	ZoomX                *FontSize        `json:"ZoomX,omitempty"`
+	ZoomY                *FontSize        `json:"ZoomY,omitempty"`
+	IsNearestNeighbor    *bool            `json:"IsNearestNeighbor,omitempty"`
+	GradientType         *string          `json:"GradientType,omitempty"`
+	Stops                []Stop           `json:"Stops,omitempty"`
+	ExtendMode           *string          `json:"ExtendMode,omitempty"`
+	Blend                *string          `json:"Blend,omitempty"`
+	Angle                *FontSize        `json:"Angle,omitempty"`
+	Width                *FontSize        `json:"Width,omitempty"`
+	Horizontal           *string          `json:"Horizontal,omitempty"`
+	Vertical             *string          `json:"Vertical,omitempty"`
+	IsKeepPosition       *bool            `json:"IsKeepPosition,omitempty"`
+	IsHardBorderMode     *bool            `json:"IsHardBorderMode,omitempty"`
+	Round                *FontSize        `json:"Round,omitempty"`
+	BlendMode            *string          `json:"BlendMode,omitempty"`
+	IsBackgroundOnly     *bool            `json:"IsBackgroundOnly,omitempty"`
+	Brush                *Brush           `json:"Brush,omitempty"`
+	Top                  *FontSize        `json:"Top,omitempty"`
+	Bottom               *FontSize        `json:"Bottom,omitempty"`
+	Left                 *FontSize        `json:"Left,omitempty"`
+	Right                *FontSize        `json:"Right,omitempty"`
+	Length               *FontSize        `json:"Length,omitempty"`
+	IsRotateAtCenter     *bool            `json:"IsRotateAtCenter,omitempty"`
+	MotionType           *string          `json:"MotionType,omitempty"`
+	StartNaturally       *bool            `json:"StartNaturally,omitempty"`
+	EndNaturally         *bool            `json:"EndNaturally,omitempty"`
+	Loop                 *bool            `json:"Loop,omitempty"`
+	Interval             *Interval        `json:"Interval"`
+	Invert               *bool            `json:"Invert,omitempty"`
+	Speed                *float64         `json:"Speed,omitempty"`
+	PositionCorrection   *float64         `json:"PositionCorrection,omitempty"`
+	ZoomCorrection       *float64         `json:"ZoomCorrection,omitempty"`
+	RotationCorrection   *float64         `json:"RotationCorrection,omitempty"`
+	Z                    *FontSize        `json:"Z,omitempty"`
+	Span                 *FontSize        `json:"Span,omitempty"`
+	DistanceMode         *string          `json:"DistanceMode,omitempty"`
+	KeyColor             *string          `json:"KeyColor,omitempty"`
+	Threshold2           *FontSize        `json:"Threshold2,omitempty"`
+	Despill              *FontSize        `json:"Despill,omitempty"`
+	IsInvert             *bool            `json:"IsInvert,omitempty"`
+	EasingType           *string          `json:"EasingType,omitempty"`
+	EasingMode           *string          `json:"EasingMode,omitempty"`
+	AngleX               *float64         `json:"AngleX,omitempty"`
+	AngleY               *float64         `json:"AngleY,omitempty"`
+	CenterPoint          *string          `json:"CenterPoint,omitempty"`
+	CenterX              *float64         `json:"CenterX,omitempty"`
+	CenterY              *float64         `json:"CenterY,omitempty"`
+	IsInEffect           *bool            `json:"IsInEffect,omitempty"`
+	IsOutEffect          *bool            `json:"IsOutEffect,omitempty"`
+	EffectTimeSeconds    *float64         `json:"EffectTimeSeconds,omitempty"`
+	Yaw                  *FontSize        `json:"Yaw,omitempty"`
+	Pitch                *FontSize        `json:"Pitch,omitempty"`
+	Roll                 *FontSize        `json:"Roll,omitempty"`
+	IsCentering          *bool            `json:"IsCentering,omitempty"`
+	JumpHeight           *FontSize        `json:"JumpHeight,omitempty"`
+	Stretch              *FontSize        `json:"Stretch,omitempty"`
+	Period               *FontSize        `json:"Period,omitempty"`
+	Distortion           *FontSize        `json:"Distortion,omitempty"`
+	File                 *string          `json:"File,omitempty"`
+	Tolerance            *FontSize        `json:"Tolerance,omitempty"`
+	KeepAspect           *bool            `json:"KeepAspect,omitempty"`
+	IsFixedCoveringScale *bool            `json:"IsFixedCoveringScale,omitempty"`
+	IsReversedInEffect   *bool            `json:"IsReversedInEffect,omitempty"`
+	IsReversedOutEffect  *bool            `json:"IsReversedOutEffect,omitempty"`
+	Value                *ValueUnion      `json:"Value"`
+	MosaicType           *string          `json:"MosaicType,omitempty"`
+	MosaicParameter      *MosaicParameter `json:"MosaicParameter,omitempty"`
+	StrokeThicknessRate  *FontSize        `json:"StrokeThicknessRate,omitempty"`
+	BlurRate             *FontSize        `json:"BlurRate,omitempty"`
+	StrokeBruch          *Brush           `json:"StrokeBruch,omitempty"`
+	Attenuation          *FontSize        `json:"Attenuation,omitempty"`
+	ShadowType           *string          `json:"ShadowType,omitempty"`
+	Color1               *string          `json:"Color1,omitempty"`
+	Color2               *string          `json:"Color2,omitempty"`
+	Count                *FontSize        `json:"Count,omitempty"`
+	Radius               *FontSize        `json:"Radius,omitempty"`
+	CircumferenceRate    *FontSize        `json:"CircumferenceRate,omitempty"`
+	IsSyncedAngle        *bool            `json:"IsSyncedAngle,omitempty"`
+	Is3D                 *bool            `json:"Is3D,omitempty"`
+	Angle1               *FontSize        `json:"Angle1,omitempty"`
+	Angle2               *FontSize        `json:"Angle2,omitempty"`
+	Amplitude            *FontSize        `json:"Amplitude,omitempty"`
+	WaveLength           *FontSize        `json:"WaveLength,omitempty"`
+}
+
+type MosaicParameter struct {
+	Type string   `json:"$type"`
+	Size FontSize `json:"Size"`
 }
 
 type Size struct {
-	Type          *string   `json:"$type,omitempty"`
-	Width         *FontSize `json:"Width,omitempty"`
-	Height        *FontSize `json:"Height,omitempty"`
-	Label         *string   `json:"Label,omitempty"`
-	Values        []Value   `json:"Values,omitempty"`
-	Span          *float64  `json:"Span,omitempty"`
-	AnimationType *string   `json:"AnimationType,omitempty"`
-	Bezier        *Bezier   `json:"Bezier,omitempty"`
+	Type          *string        `json:"$type,omitempty"`
+	Width         *FontSize      `json:"Width,omitempty"`
+	Height        *FontSize      `json:"Height,omitempty"`
+	Label         *string        `json:"Label,omitempty"`
+	Values        []ValueElement `json:"Values,omitempty"`
+	Span          *float64       `json:"Span,omitempty"`
+	AnimationType *string        `json:"AnimationType,omitempty"`
+	Bezier        *Bezier        `json:"Bezier,omitempty"`
 }
 
 type LayerSettings struct {
@@ -676,7 +791,7 @@ type LayerSettings struct {
 
 type LayerSettingsItem struct {
 	Layer    int64   `json:"Layer"`
-	Label    string  `json:"Label"`
+	Label    *string `json:"Label"`
 	Color    string  `json:"Color"`
 	IsHidden bool    `json:"IsHidden"`
 	Volume   float64 `json:"Volume"`
@@ -727,6 +842,25 @@ func (x *Interval) UnmarshalJSON(data []byte) error {
 
 func (x *Interval) MarshalJSON() ([]byte, error) {
 	return marshalUnion(nil, x.Double, nil, nil, false, nil, x.FontSize != nil, x.FontSize, false, nil, false, nil, false)
+}
+
+type ValueUnion struct {
+	Double *float64
+	String *string
+}
+
+func (x *ValueUnion) UnmarshalJSON(data []byte) error {
+	object, err := unmarshalUnion(data, nil, &x.Double, nil, &x.String, false, nil, false, nil, false, nil, false, nil, false)
+	if err != nil {
+		return err
+	}
+	if object {
+	}
+	return nil
+}
+
+func (x *ValueUnion) MarshalJSON() ([]byte, error) {
+	return marshalUnion(nil, x.Double, nil, x.String, false, nil, false, nil, false, nil, false, nil, false)
 }
 
 func unmarshalUnion(data []byte, pi **int64, pf **float64, pb **bool, ps **string, haveArray bool, pa interface{}, haveObject bool, pc interface{}, haveMap bool, pm interface{}, haveEnum bool, pe interface{}, nullable bool) (bool, error) {
